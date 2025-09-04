@@ -4,13 +4,15 @@ This project implements a **gRPC-based loan processing system** that interacts w
 
 ## Repository
 
-**Clone the repository:**
+**Foolow the following instructions:**
 
 ```bash
 git clone git@github.com:NiharSrikakolapu3/Big-Data-Loan-Processing-System.git
 cd Big-Data-Loan-Processing-System
 
-**Prerequisites**
+
+
+Prerequisites-
 Docker v20+
 
 Docker Compose v2+
@@ -18,7 +20,7 @@ Docker Compose v2+
 Python 3.12 (optional if running client inside container)
 
 
-**Setup:**
+Setup-
 1. Set Project Environment Variable
 
 Copy code
