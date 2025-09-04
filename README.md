@@ -74,10 +74,9 @@ Expected file size: ~28–30 MB
 Part 2: Check Block Locations (BlockLocations)
 Copy code
 python3 client.py BlockLocations -f /hdma-wi-2021.parquet
-
-
 Returns a dictionary showing block distribution across DataNodes, e.g.:
 {"7eb74ce67e75": 15, "f7747b42d254": 7, "39750756065d": 8}
+
 Part 3: Calculate Average Loan for a County (CalcAvgLoan)
 Copy code
 python3 client.py CalcAvgLoan -c <county_code>
