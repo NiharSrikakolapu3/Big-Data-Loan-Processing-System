@@ -17,7 +17,7 @@ Docker Compose v2+
 Python 3.12 (optional if running client inside container)
 
 
-Setup
+**Setup:**
 1. Set Project Environment Variable
 
 Copy code
