@@ -7,7 +7,7 @@ This project implements a **gRPC-based loan processing system** that interacts w
 **Foolow the following instructions:**
 
 ```bash
-git clone git@github.com:NiharSrikakolapu3/Big-Data-Loan-Processing-System.git
+git clone https://github.com/NiharSrikakolapu3/Big-Data-Loan-Processing-System.git
 cd Big-Data-Loan-Processing-System
 
 
