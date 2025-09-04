@@ -9,7 +9,8 @@ This project implements a **gRPC-based loan processing system** that interacts w
 ```bash
 git clone git@github.com:NiharSrikakolapu3/Big-Data-Loan-Processing-System.git
 cd Big-Data-Loan-Processing-System
-Prerequisites
+
+**Prerequisites**
 Docker v20+
 
 Docker Compose v2+
