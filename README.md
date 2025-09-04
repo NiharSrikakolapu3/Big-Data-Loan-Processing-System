@@ -1,14 +1,10 @@
-# Big Data Loan Processing System
+Big Data Loan Processing System
+This project implements a gRPC-based loan processing system that interacts with HDFS and MySQL, processes loan data for Wisconsin counties, and provides RPC methods to query and manipulate the data. All services run in Docker containers for easy setup and testing.
 
-This project implements a **gRPC-based loan processing system** that interacts with **HDFS** and **MySQL**, processes loan data for Wisconsin counties, and provides RPC methods to query and manipulate the data. All services run in **Docker containers** for easy setup and testing.
-
----
-
-## Repository
-
+Repository
 Clone the repository:
 
-```bash
+bash
 git clone git@github.com:NiharSrikakolapu3/Big-Data-Loan-Processing-System.git
 cd Big-Data-Loan-Processing-System
 Prerequisites
@@ -23,13 +19,11 @@ Bash shell
 Setup
 1. Set Project Environment Variable
 bash
-Copy code
 export PROJECT=p4
 This is required by the Docker Compose file to name all images and services.
 
 2. Build Docker Images
 bash
-Copy code
 sudo docker-compose build
 This builds the following images:
 
@@ -45,7 +39,6 @@ p4-server (gRPC Server)
 
 3. Start Docker Compose Cluster
 bash
-Copy code
 sudo docker-compose up -d
 This starts:
 
@@ -60,17 +53,14 @@ gRPC Server: p4-server-1
 Check server logs:
 
 bash
-Copy code
 sudo docker logs -f p4-server-1
 Running Client Commands
 Enter the server container:
 
 bash
-Copy code
 sudo docker exec -it p4-server-1 bash
 Part 1: Upload to HDFS (DbToHdfs)
 bash
-Copy code
 python3 client.py DbToHdfs
 Joins loans and loan_types tables in MySQL.
 
@@ -81,27 +71,22 @@ Writes /hdma-wi-2021.parquet to HDFS with 2x replication and 1 MB block size.
 Verify upload:
 
 bash
-Copy code
 hdfs dfs -du -h /hdma-wi-2021.parquet
 Expected file size: ~28–30 MB
 
 Part 2: Check Block Locations
 bash
-Copy code
 python3 client.py BlockLocations -f /hdma-wi-2021.parquet
 Returns a dictionary showing block distribution across DataNodes:
 
 json
-Copy code
-{'7eb74ce67e75': 15, 'f7747b42d254': 7, '39750756065d': 8}
+{"7eb74ce67e75": 15, "f7747b42d254": 7, "39750756065d": 8}
 Part 3: Calculate Average Loan for a County
 bash
-Copy code
 python3 client.py CalcAvgLoan -c <county_code>
 Example:
 
 bash
-Copy code
 python3 client.py CalcAvgLoan -c 55001
 Filters /hdma-wi-2021.parquet by county_code.
 
@@ -115,11 +100,9 @@ Part 4: Fault Tolerance Test
 Kill a DataNode:
 
 bash
-Copy code
 sudo docker kill p4-dn-1
 Re-run CalcAvgLoan for a county with 1x replication:
 
 bash
-Copy code
 python3 client.py CalcAvgLoan -c 55001
 If the county-specific file was lost, source will show recreate.
