@@ -1,38 +1,59 @@
 name: ${PROJECT}
 
 services:
-        server:
-               image: ${PROJECT}-server    
-               deploy:
-                       resources:
-                               limits:
-                                       memory: 3g
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    image: ${PROJECT}-server
+    deploy:
+      resources:
+        limits:
+          memory: 3g
+    depends_on:
+      - mysql
+      - nn
+      - dn
+    ports:
+      - "5000:5000"
 
-        mysql:
-                image: ${PROJECT}-mysql
-                hostname: mysql
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    image: ${PROJECT}-mysql
+    hostname: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: abc
+      MYSQL_DATABASE: CS544
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    ports:
+      - "3306:3306"
 
-                environment:
-                        MYSQL_ROOT_PASSWORD: abc
-                        MYSQL_DATABASE: CS544
+  nn:
+    build:
+      context: .
+      dockerfile: Dockerfile.namenode
+    image: ${PROJECT}-nn
+    hostname: boss
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    ports:
+      - "9870:9870"
 
-                deploy:
-                        resources:
-                                limits:
-                                        memory: 1g
-        nn:
-                image: ${PROJECT}-nn
-                hostname: boss
-                deploy:
-                        resources:
-                                limits:
-                                        memory: 1g
-
-        dn:
-                image: ${PROJECT}-dn
-                deploy:
-                        replicas: 3
-                        resources:
-                                limits:
-                                        memory: 1g
+  dn:
+    build:
+      context: .
+      dockerfile: Dockerfile.datanode
+    image: ${PROJECT}-dn
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 1g
 
