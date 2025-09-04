@@ -1,0 +1,17 @@
+# Use the p4-hdfs base image
+FROM p4-hdfs
+RUN apt-get update && apt-get install -y python3 python3-pip curl iproute2 git
+RUN pip3 install pyarrow pandas grpcio grpcio-tools protobuf --break-system-packages
+RUN pip3 install sqlalchemy --break-system-packages
+COPY requirements.txt ./ 
+RUN pip3 install -r ./requirements.txt --break-system-packages
+RUN pip3 install hdfs --break-system-packages
+COPY lender.proto ./
+RUN pip install grpcio-tools==1.70.0 grpcio==1.70.0 protobuf==5.29.3 --break-system-packages
+RUN python3 -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. lender.proto
+RUN pip3 install mysql-connector-python --break-system-packages
+RUN pip3 install requests --break-system-packages
+COPY . ./
+COPY hdma-wi-2021.sql.gz ./
+CMD export CLASSPATH=`$HADOOP_HOME/bin/hdfs classpath --glob` && \
+    python3 server.py
